@@ -60,7 +60,7 @@ const Navbar = () => {
       <div className="container mx-auto px-4 flex justify-between items-center">
         {/* Logo */}
         <Link to="/" className="flex items-center">
-          <img src={logo1} alt="Eco Monitor Logo" className="h-20 w-50 sm:h-15 md:h-12" />
+          <img src={logo1} alt="Eco Monitor Logo" className="h-20 w-50 sm:h-15 md:h-10" />
 
 
           

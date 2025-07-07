@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Test Data</title>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+    <!-- Add Chart.js to your existing head section -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+        #data-container {
+            margin-top: 20px;
+            max-width: 200px;
+            background-color: rgba(21, 255, 0, 0.514);
+            border: 1px solid #352f2f;
+            padding: 15px;
+            border-radius: 20px;
+            text-align: center;
+        }
+        .data-item {
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #ffffff;
+            border-radius: 3px;
+        }
+        pre {
+            background-color: hsl(0, 0%, 100%);
+            padding: 10px;
+            text-align: center;
+            font-size: 30px;
+            font-weight: bold;
+            font-family: popins, sans-serif;
+            max-width: 180px;
+            border-radius: 15px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div id="data-container">
+        <p>Loading Real-Time Data</p>
+    </div>
+
+    <script>
+        // Your web app's Firebase configuration
+        // Replace with your actual Firebase project config
+        const firebaseConfig = {
+            apiKey: "AIzaSyDX4VPtZVVQacTheDwlT18iL0a3_hTYC2E",
+            authDomain: "emiscope-test.firebaseapp.com",
+            databaseURL: "https://emiscope-test-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "emiscope-test",
+            storageBucket: "emiscope-test.firebasestorage.app",
+            messagingSenderId: "529715981891",
+            appId: "1:529715981891:web:e546ce4c46ebc8f988aef6"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        // Get a reference to the database service
+        const database = firebase.database();
+
+        // Reference to your specific data path in Firebase
+        const dataRef = database.ref('test/int');
+
+        // Listen for value changes
+        dataRef.on('value', (snapshot) => {
+            const data = snapshot.val();
+            const container = document.getElementById('data-container');
+            
+            if (data) {
+                container.innerHTML = '<h2>CO Level (ppm):</h2>';
+                
+                // Display the raw JSON data
+                const rawDataElement = document.createElement('pre');
+                rawDataElement.textContent = JSON.stringify(data, null, 2);
+                container.appendChild(rawDataElement);
+                
+                // If you want to display it in a more formatted way:
+
+                
+                if (typeof data === 'object') {
+                    let html = '<h3>Formatted Data:</h3><ul>';
+                    for (const key in data) {
+                        html += `<li><strong>${key}:</strong> ${data[key]}</li>`;
+                    }
+                    html += '</ul>';
+                    formattedElement.innerHTML = html;
+                } else {
+                    // If it's not an object but a direct value
+                    formattedElement.innerHTML = `<h3>ppm</h3><p>${data}</p>`;
+                }
+                
+                container.appendChild(formattedElement);
+            } else {
+                container.innerHTML = '<p>No data available</p>';
+            }
+        }, (error) => {
+            console.error('Error reading data:', error);
+            document.getElementById('data-container').innerHTML = 
+                '<p>Error loading data From database</p>';
+        });
+    </script>
+</body>
+</html>

@@ -5,7 +5,6 @@ import { format } from 'date-fns';
 import { useAuth } from '../../contexts/AuthContext';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../../firebase/config';
-import FirebaseLineChart from '../../components/FirebaseLineChart';
 
 import DashboardCard from '../../components/dashboard/DashboardCard';
 import EmissionsChart from '../../components/dashboard/EmissionsChart';
@@ -142,6 +141,7 @@ const FactoryDashboard = () => {
               change={{ value: "+3%", isIncrease: true }}
               footnote="vs. last hour"
             />
+            
 
             <DashboardCard 
               title="Daily Average CO"
@@ -153,9 +153,30 @@ const FactoryDashboard = () => {
             />
           </div>
 
+          <div className="w-full max-w-xl mx-auto px-8 py-8 mt-10 bg-white rounded-xl shadow-md">
+            <h2 className="text-2xl font-semibold text-gray-800 mb-4 text-center">Live CO Sensor Data</h2>
+           <iframe
+             src="data1.html"
+             width="200px"
+             height="300px"
+             className="w-full rounded-lg"
+             style={{ border: 'none' }}
+              title="Live CO Sensor Data"
+           />
+           </div>
+
+
+
           {/* Firebase chart */}
           <div className="container mx-auto px-4 relative z-10 mt-10">
-            <FirebaseLineChart/>
+            <h2 className="text-2xl font-semibold text-gray-800 mb-4 text-center">Live CO Sensor Data using Graph</h2>
+            <iframe
+              src="/visualizechart.html"
+              width="100%"
+              height="600"
+              style={{ border: 'none' }}
+              title="My HTML Page"
+           />
           </div> 
 
           {/* Emissions Charts */}

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Visualization</title>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .chart-container {
+            position: relative;
+            height: 400px;
+            width: 100%;
+            margin: 20px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+        }
+        .controls {
+            margin: 15px 0;
+            padding: 10px;
+            background: #f5f5f5;
+            border-radius: 5px;
+        }
+        button {
+            padding: 8px 15px;
+            margin-right: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        select, input {
+            padding: 8px;
+            margin-right: 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        #data-container {
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 5px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="chart-container">
+        <canvas id="dataChart"></canvas>
+    </div>
+    
+    <div class="controls">
+        <button id="resetZoom">Reset Zoom</button>
+        <button id="clearData">Clear History</button>
+        <button id="toggleData">Show Your Data</button>
+        
+        <label for="chartHeight">Chart Height:</label>
+        <select id="chartHeight">
+            <option value="300">Small (300px)</option>
+            <option value="400" selected>Medium (400px)</option>
+            <option value="500">Large (500px)</option>
+            <option value="custom">Custom</option>
+        </select>
+        <input type="number" id="customHeight" placeholder="px" style="display: none; width: 80px;">
+        <button id="applyHeight">Apply</button>
+    </div>
+    
+    <div id="data-container">
+        <h2> Real-time Data</h2>
+        <pre id="rawData"></pre>
+    </div>
+
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDX4VPtZVVQacTheDwlT18iL0a3_hTYC2E",
+            authDomain: "emiscope-test.firebaseapp.com",
+            databaseURL: "https://emiscope-test-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "emiscope-test",
+            storageBucket: "emiscope-test.firebasestorage.app",
+            messagingSenderId: "529715981891",
+            appId: "1:529715981891:web:e546ce4c46ebc8f988aef6"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+        const dataRef = database.ref('test/int');
+
+        // Chart setup
+        const ctx = document.getElementById('dataChart').getContext('2d');
+        let historicalData = JSON.parse(localStorage.getItem('chartData')) || [];
+        const maxDataPoints = 1000;
+
+        const chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                datasets: [{
+                    label: 'Test Data',
+                    borderColor: 'rgb(75, 192, 192)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.1)',
+                    tension: 0.1,
+                    pointRadius: 3,
+                    fill: true,
+                    data: historicalData
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        type: 'time',
+                        time: {
+                            unit: 'minute',
+                            tooltipFormat: 'MMM D, HH:mm:ss'
+                        },
+                        title: { display: true, text: 'Time' }
+                    },
+                    y: {
+                        title: { display: true, text: 'Value' }
+                    }
+                },
+                plugins: {
+                    zoom: {
+                        zoom: {
+                            wheel: { enabled: true },
+                            pinch: { enabled: true },
+                            mode: 'xy',
+                        },
+                        pan: {
+                            enabled: true,
+                            mode: 'xy',
+                        }
+                    }
+                }
+            }
+        });
+
+        // Set initial chart height from localStorage or default
+        const savedHeight = localStorage.getItem('chartHeight') || '400';
+        document.querySelector('.chart-container').style.height = `${savedHeight}px`;
+        document.getElementById('chartHeight').value = savedHeight;
+        chart.resize();
+
+        // Firebase data listener
+        dataRef.on('value', (snapshot) => {
+            const data = snapshot.val();
+            document.getElementById('rawData').textContent = JSON.stringify(data, null, 2);
+            
+            if (data) {
+                const timestamp = new Date().getTime();
+                let value = typeof data === 'object' ? 
+                    Object.values(data).find(v => typeof v === 'number') || 0 : 
+                    data;
+                
+                historicalData.push({ x: timestamp, y: value });
+                
+                // Limit data points and save to localStorage
+                if (historicalData.length > maxDataPoints) {
+                    historicalData.shift();
+                }
+                localStorage.setItem('chartData', JSON.stringify(historicalData));
+                
+                // Update chart
+                chart.data.datasets[0].data = historicalData;
+                chart.update('none');
+            }
+        });
+
+        // Control buttons
+        document.getElementById('resetZoom').addEventListener('click', () => chart.resetZoom());
+        
+        document.getElementById('clearData').addEventListener('click', () => {
+            if (confirm('Clear all chart data?')) {
+                historicalData = [];
+                localStorage.removeItem('chartData');
+                chart.data.datasets[0].data = [];
+                chart.update();
+            }
+        });
+        
+        document.getElementById('toggleData').addEventListener('click', function() {
+            const container = document.getElementById('data-container');
+            container.style.display = container.style.display === 'none' ? 'block' : 'none';
+            this.textContent = container.style.display === 'none' ? 'Show the Level' : 'Hide the Level';
+        });
+
+        // Chart height controls
+        document.getElementById('chartHeight').addEventListener('change', function() {
+            const customInput = document.getElementById('customHeight');
+            if (this.value === 'custom') {
+                customInput.style.display = 'inline-block';
+                customInput.focus();
+            } else {
+                customInput.style.display = 'none';
+                setChartHeight(this.value);
+            }
+        });
+        
+        document.getElementById('applyHeight').addEventListener('click', function() {
+            const height = document.getElementById('chartHeight').value === 'custom' ?
+                document.getElementById('customHeight').value :
+                document.getElementById('chartHeight').value;
+
+            if (height && !isNaN(height)) {
+                setChartHeight(height);
+            }
+        });
+
+        function setChartHeight(height) {
+            const container = document.querySelector('.chart-container');
+            container.style.height = `${height}px`;
+            localStorage.setItem('chartHeight', height);
+            chart.resize();
+        }
+    </script>
+</body>
+</html>
