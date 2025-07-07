@@ -29,16 +29,16 @@ const NotificationDropdown = ({ scrolled }) => {
           <div className="py-2 px-4 font-semibold text-gray-800 border-b">Notifications</div>
           <ul className="divide-y divide-gray-100">
             <li className="px-4 py-3 text-sm text-gray-800">
-              <p>Monthly report is available for download</p>
-              <p className="text-xs text-gray-500 mt-1">May 10, 2023 09:00</p>
+              <p>day report is available for download</p>
+              <p className="text-xs text-gray-500 mt-1">July 8, 2025 12:15</p>
             </li>
             <li className="px-4 py-3 text-sm text-gray-800">
               <p>New emission reduction techniques available</p>
-              <p className="text-xs text-gray-500 mt-1">May 9, 2023 14:30</p>
+              <p className="text-xs text-gray-500 mt-1">July 8, 2025 12:16</p>
             </li>
             <li className="px-4 py-3 text-sm text-gray-800">
               <p>Your factory rating has improved</p>
-              <p className="text-xs text-gray-500 mt-1">May 7, 2023 10:15</p>
+              <p className="text-xs text-gray-500 mt-1">July8 7, 2025 12:17</p>
             </li>
           </ul>
         </div>

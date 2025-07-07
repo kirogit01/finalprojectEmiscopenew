@@ -5,12 +5,13 @@ import { format } from 'date-fns';
 import { useAuth } from '../../contexts/AuthContext';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../../firebase/config';
+import FirebaseLineChart from '../../components/FirebaseLineChart';
 
 import DashboardCard from '../../components/dashboard/DashboardCard';
 import EmissionsChart from '../../components/dashboard/EmissionsChart';
 import AlertsTable from '../../components/dashboard/AlertsTable';
 import RatingDisplay from '../../components/dashboard/RatingDisplay';
-import FirebaseLineChart from '../../components/FirebaseLineChart';
+
 import NotificationBell from '../../components/NotificationBell';
 
 import { generateMonthlyReportPDF } from '../../utils/generateMonthlyReportPDF';
@@ -24,10 +25,20 @@ const FactoryDashboard = () => {
   const [co2Level, setCo2Level] = useState(450);
 
   const dailyEmissions = [
-    { time: '00:00', co: 12 }, { time: '03:00', co: 14 },
-    { time: '06:00', co: 18 }, { time: '09:00', co: 21 },
-    { time: '12:00', co: 25 }, { time: '15:00', co: 22 },
-    { time: '18:00', co: 16 }, { time: '21:00', co: 13 },
+    { time: '00:00', co: 30 }, { time: '01:00', co: 28 },
+
+    { time: '02:00', co: 26 }, { time: '03:00', co: 14 },
+    { time: '05:00', co: 33 }, { time: '06:00', co: 28 },
+    { time: '07:00', co: 16 }, { time: '08:00', co: 13 },
+    { time: '09:00', co: 20 }, { time: '10:00', co: 25 },
+    { time: '11:00', co: 30 }, { time: '12:00', co: 35 },
+    { time: '13:00', co: 32 }, { time: '14:00', co: 29 },
+    { time: '15:00', co: 27 }, { time: '16:00', co: 22 },
+    { time: '17:00', co: 18 }, { time: '18:00', co: 15 },
+    { time: '19:00', co: 12 }, { time: '20:00', co: 10 },
+    { time: '21:00', co: 8 }, { time: '22:00', co: 6 },
+    { time: '23:00', co: 5 }
+
   ];
 
   const weeklyEmissions = [
@@ -144,7 +155,7 @@ const FactoryDashboard = () => {
 
           {/* Firebase chart */}
           <div className="container mx-auto px-4 relative z-10 mt-10">
-            <FirebaseLineChart />
+            <FirebaseLineChart/>
           </div> 
 
           {/* Emissions Charts */}

@@ -9,6 +9,7 @@ import DashboardCard from '../../components/dashboard/DashboardCard';
 import EmissionsChart from '../../components/dashboard/EmissionsChart';
 import FactoriesTable from '../../components/dashboard/FactoriesTable';
 import MapView from '../../components/dashboard/MapView';
+import DashboardQuickActions from '../../components/DashboardQuickActions';
 
 const AdminDashboard = () => {
   const { currentUser } = useAuth();
@@ -109,10 +110,10 @@ const AdminDashboard = () => {
           </div>
 
           {/* Overall Stats */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
             <DashboardCard 
               title="Total Factories"
-              value={factories.length}
+              value={1}
               icon={<FiUsers />}
               footnote="Registered in system"
             />
@@ -126,14 +127,6 @@ const AdminDashboard = () => {
               footnote="vs. last month"
             />
             
-            <DashboardCard 
-              title="Average CO2 Level"
-              value="452 ppm"
-              status="warning"
-              icon={<FiTrendingUp />}
-              change={{ value: "+1%", isIncrease: true }}
-              footnote="vs. last month"
-            />
             
             <DashboardCard 
               title="Alert Factories"
@@ -145,7 +138,7 @@ const AdminDashboard = () => {
           </div>
           
           {/* Charts */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+          <div className="grid grid-cols-1 lg:grid-cols-1 gap-6 mb-8">
             <div className="bg-white rounded-lg shadow p-6">
               <h2 className="text-lg font-semibold text-gray-800 mb-4">Monthly Emissions Trend</h2>
               <EmissionsChart data={overallEmissions} dataKeyX="month" />
@@ -155,14 +148,6 @@ const AdminDashboard = () => {
               </div>
             </div>
             
-            <div className="bg-white rounded-lg shadow p-6">
-              <h2 className="text-lg font-semibold text-gray-800 mb-4">Emissions by Industry</h2>
-              <EmissionsChart data={industryEmissions} dataKeyX="industry" />
-              <div className="mt-4 flex justify-between items-center text-sm text-gray-500">
-                <span>Average values</span>
-                <button className="text-primary-600 hover:text-primary-800">View Details</button>
-              </div>
-            </div>
           </div>
           
           {/* Factories List/Map */}
@@ -268,26 +253,8 @@ const AdminDashboard = () => {
               </button>
             </div>
             
-            <div className="bg-white rounded-lg shadow p-6">
-              <h3 className="text-lg font-semibold text-gray-800 mb-4">Quick Actions</h3>
-              <div className="space-y-3">
-                <button className="w-full text-left px-4 py-3 bg-primary-50 text-primary-700 rounded-lg hover:bg-primary-100 transition-colors flex items-center">
-                  <FiUsers className="mr-3" />
-                  Add New Factory
-                </button>
-                <button className="w-full text-left px-4 py-3 bg-secondary-50 text-secondary-700 rounded-lg hover:bg-secondary-100 transition-colors flex items-center">
-                  <FiBarChart2 className="mr-3" />
-                  Generate Monthly Report
-                </button>
-                <button className="w-full text-left px-4 py-3 bg-accent-50 text-accent-700 rounded-lg hover:bg-accent-100 transition-colors flex items-center">
-                  <FiMapPin className="mr-3" />
-                  Update Location Data
-                </button>
-                <button className="w-full text-left px-4 py-3 bg-gray-50 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors flex items-center">
-                  <FiAlertCircle className="mr-3" />
-                  Manage Alert Thresholds
-                </button>
-              </div>
+            <div>
+              <DashboardQuickActions/>
             </div>
           </div>
         </motion.div>

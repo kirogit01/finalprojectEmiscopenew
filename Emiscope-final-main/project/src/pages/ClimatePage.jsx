@@ -106,9 +106,6 @@ const ClimatePage = () => {
                     </li>
                   </ul>
                 </div>
-                <div>
-                  <FirebaseLineChart />
-                </div>
                 
                 <div>
                   <img 

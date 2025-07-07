@@ -16,6 +16,7 @@ const firebaseConfig = {
 let app;
 if (!getApps().length) {
   app = initializeApp(firebaseConfig);
+  
 } else {
   app = getApp(); // Reuse the existing one
 }

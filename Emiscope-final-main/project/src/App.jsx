@@ -13,6 +13,7 @@ import FactoryDashboard from './pages/dashboard/FactoryDashboard'
 import AdminDashboard from './pages/dashboard/AdminDashboard'
 import NotFoundPage from './pages/NotFoundPage'
 import ProtectedRoute from './components/auth/ProtectedRoute'
+import ContactUs from './pages/ContactUs'
 
 
 
@@ -43,6 +44,7 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/climate" element={<ClimatePage />} />
+            <Route path="/contact" element={<ContactUs />} />
             <Route path="/login" element={!currentUser ? <LoginPage /> : <Navigate to="/dashboard" />} />
             <Route path="/register" element={!currentUser ? <RegisterPage /> : <Navigate to="/dashboard" />} />
           

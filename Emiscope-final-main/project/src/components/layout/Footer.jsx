@@ -63,6 +63,12 @@ const Footer = () => {
                   Login
                 </Link>
               </li>
+              <li>
+              
+                <Link to="/contact" className="text-gray-400 hover:text-primary-500 transition-colors">
+                  Contact Us
+                </Link>
+              </li>
             </ul>
           </div>
           
@@ -71,27 +77,27 @@ const Footer = () => {
             <h4 className="text-lg font-semibold mb-4">Resources</h4>
             <ul className="space-y-2">
               <li>
-                <a href="#" className="text-gray-400 hover:text-primary-500 transition-colors">
+                <a href="https://www.epa.gov/climateleadership/ghg-reduction-programs-strategies" className="text-gray-400 hover:text-primary-500 transition-colors">
                   Emissions Guidelines
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-primary-500 transition-colors">
+                <a href="https://online.hbs.edu/blog/post/how-to-reduce-carbon-emissions" className="text-gray-400 hover:text-primary-500 transition-colors">
                   Carbon Reduction Tips
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-primary-500 transition-colors">
+                <a href="https://en.wikipedia.org/wiki/ISO_14064" className="text-gray-400 hover:text-primary-500 transition-colors">
                   Industry Standards
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-primary-500 transition-colors">
+                <a href="https://www.sciencedirect.com/science/article/pii/S0301479722020102" className="text-gray-400 hover:text-primary-500 transition-colors">
                   Research Papers
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-primary-500 transition-colors">
+                <a href="https://sciencebasedtargets.org/faqs" className="text-gray-400 hover:text-primary-500 transition-colors">
                   FAQs
                 </a>
               </li>

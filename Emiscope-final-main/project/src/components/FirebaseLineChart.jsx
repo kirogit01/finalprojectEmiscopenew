@@ -21,7 +21,7 @@ const FirebaseLineChart = () => {
   const [stringValue, setStringValue] = useState('');
 
   useEffect(() => {
-    const testRef = ref(database, 'sensorData/test');
+    const testRef = ref(database, 'test/int');
 
     const unsubscribe = onValue(testRef, (snapshot) => {
       const currentData = snapshot.val();

@@ -386,7 +386,7 @@ const HomePage = () => {
             <Link to="/register" className="btn bg-white text-primary-600 hover:bg-gray-100">
               Register Now <FiArrowRight className="ml-2" />
             </Link>
-            <Link to="/about" className="btn border-2 border-white text-white hover:bg-primary-700">
+            <Link to="/contact" className="btn border-2 border-white text-white hover:bg-primary-700">
               Learn More
             </Link>
           </motion.div>

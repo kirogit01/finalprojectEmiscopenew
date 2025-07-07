@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FiMenu, FiX, FiUser, FiBell, FiLogOut } from 'react-icons/fi';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../../contexts/AuthContext';
-import logo from '../../assets/logo.png';
+import logo1 from '../../assets/logo1.png'; // Adjust the path as necessary
 
 import NotificationBell from '../../components/NotificationBell';
 
@@ -54,18 +54,16 @@ const Navbar = () => {
   return (
     <header 
       className={`fixed w-full z-50 transition-all duration-300 ${
-        scrolled ? 'bg-white shadow-md py-2' : 'bg-transparent py-4'
+        scrolled ? 'bg-white shadow-md py-2' : 'bg-gray-400 py-4'
       }`}
     >
       <div className="container mx-auto px-4 flex justify-between items-center">
         {/* Logo */}
         <Link to="/" className="flex items-center">
-          <img src={logo} alt="Eco Monitor Logo" className="h-10 w-auto sm:h-12 md:h-14" />
+          <img src={logo1} alt="Eco Monitor Logo" className="h-20 w-50 sm:h-15 md:h-12" />
 
 
-          <span className={`ml-2 font-heading font-bold text-xl ${scrolled ? 'text-primary-800' : 'text-white'}`}>
-            EmiScope
-          </span>
+          
         </Link>
 
         {/* Desktop Navigation */}
