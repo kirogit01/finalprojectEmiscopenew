@@ -47,6 +47,8 @@ function App() {
             <Route path="/contact" element={<ContactUs />} />
             <Route path="/login" element={!currentUser ? <LoginPage /> : <Navigate to="/dashboard" />} />
             <Route path="/register" element={!currentUser ? <RegisterPage /> : <Navigate to="/dashboard" />} />
+            <Route path="/admindasboard" element={<AdminDashboard />} />
+            <Route path="/factory-dashboard" element={<FactoryDashboard />} />    
           
             
             {/* Protected routes */}

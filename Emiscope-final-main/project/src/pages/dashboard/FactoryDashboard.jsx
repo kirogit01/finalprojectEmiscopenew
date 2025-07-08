@@ -24,9 +24,9 @@ const FactoryDashboard = () => {
   const [co2Level, setCo2Level] = useState(450);
 
   const dailyEmissions = [
-    { time: '00:00', co: 30 }, { time: '01:00', co: 28 },
+    { time: '00:00', co: 210 }, { time: '01:00', co: 28 },
 
-    { time: '02:00', co: 26 }, { time: '03:00', co: 14 },
+    { time: '02:00', co: 180 }, { time: '03:00', co: 14 },
     { time: '05:00', co: 33 }, { time: '06:00', co: 28 },
     { time: '07:00', co: 16 }, { time: '08:00', co: 13 },
     { time: '09:00', co: 20 }, { time: '10:00', co: 25 },
@@ -132,38 +132,39 @@ const FactoryDashboard = () => {
           
 
           {/* Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 mb-8">
-            <DashboardCard 
-              title="Current CO Level"
-              value={`${coLevel.toFixed(1)} ppm`}
-              status={coStatus}
-              icon={<FiActivity />}
-              change={{ value: "+3%", isIncrease: true }}
-              footnote="vs. last hour"
-            />
-            
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 items-stretch">
+        <div className="flex flex-col justify-between w-full h-full min-h-[350px] bg-white rounded-xl shadow-md px-8 py-8">
+          <h2 className="text-2xl font-semibold text-gray-800 mb-4 text-center">
+             Live CO Sensor Data
+          </h2>
+        
 
-            <DashboardCard 
-              title="Daily Average CO"
-              value="17.2 ppm"
-              status="success"
-              icon={<FiTrendingUp />}
-              change={{ value: "+5%", isIncrease: true }}
-              footnote="vs. yesterday"
-            />
-          </div>
+        <iframe
+         src="data1.html"
+         className="w-full h-full rounded-lg flex-grow"
+         style={{ border: 'none' }}
+         title="Live CO Sensor Data"
+       />
+  </div>
 
-          <div className="w-full max-w-xl mx-auto px-8 py-8 mt-10 bg-white rounded-xl shadow-md">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-4 text-center">Live CO Sensor Data</h2>
-           <iframe
-             src="data1.html"
-             width="200px"
-             height="300px"
-             className="w-full rounded-lg"
-             style={{ border: 'none' }}
-              title="Live CO Sensor Data"
-           />
-           </div>
+  <div className="h-full min-h-[350px]">
+    <h2 className="text-2xl font-semibold text-gray-800 mb-4 text-center">
+             Daily Average Of CO
+          </h2>
+    
+    <DashboardCard 
+      title="Daily Average CO"
+      value="220.5 ppm"
+      status="success"
+      icon={<FiTrendingUp />}
+      change={{ value: "+5%", isIncrease: true }}
+      footnote="vs. yesterday"
+    />
+  </div>
+</div>
+
+
+          
 
 
 
