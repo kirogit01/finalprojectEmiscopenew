@@ -139,8 +139,8 @@ const FactoryDashboard = () => {
           </h2>
         
 
-        <iframe
-         src="data1.html"
+        <iframe width={"200px"}
+         src="data mail.html"
          className="w-full h-full rounded-lg flex-grow"
          style={{ border: 'none' }}
          title="Live CO Sensor Data"

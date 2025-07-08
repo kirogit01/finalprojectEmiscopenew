@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Test Data</title>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+    <!-- Chart.js (optional, included in your original code) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment"></script>
+
+    <!-- EmailJS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+        #data-container {
+            margin-top: 20px;
+            max-width: 200px;
+            background-color: rgba(21, 255, 0, 0.514);
+            border: 1px solid #352f2f;
+            padding: 15px;
+            border-radius: 20px;
+            text-align: center;
+        }
+        pre {
+            background-color: #ffffff;
+            padding: 10px;
+            text-align: center;
+            font-size: 30px;
+            font-weight: bold;
+            font-family: popins, sans-serif;
+            max-width: 180px;
+            border-radius: 15px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div id="data-container">
+        <p>Loading Real-Time Data...</p>
+    </div>
+
+    <script>
+        // Initialize EmailJS
+        emailjs.init("IIR9347ipEh50zGBp");
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDX4VPtZVVQacTheDwlT18iL0a3_hTYC2E",
+            authDomain: "emiscope-test.firebaseapp.com",
+            databaseURL: "https://emiscope-test-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "emiscope-test",
+            storageBucket: "emiscope-test.firebasestorage.app",
+            messagingSenderId: "529715981891",
+            appId: "1:529715981891:web:e546ce4c46ebc8f988aef6"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+        const dataRef = database.ref('test/int');
+
+        const container = document.getElementById('data-container');
+        let lastAlertTime = 0;
+
+        dataRef.on('value', (snapshot) => {
+            const value = snapshot.val();
+            container.innerHTML = '<h2>CO Level (ppm):</h2>';
+            const rawDataElement = document.createElement('pre');
+            rawDataElement.textContent = value;
+            container.appendChild(rawDataElement);
+
+            const now = Date.now();
+            if (value > 200 && (now - lastAlertTime > 60000)) {
+                lastAlertTime = now;
+
+                emailjs.send("service_emiscope", "template_ye3ft9s", {
+                    sensor_value: value,
+                    timestamp: new Date().toLocaleString()
+                }).then(() => {
+                    console.log("Email alert sent!");
+                }).catch((error) => {
+                    console.error("Error sending email:", error);
+                });
+            }
+        }, (error) => {
+            console.error('Error reading data:', error);
+            container.innerHTML = '<p>Error loading data from database</p>';
+        });
+    </script>
+</body>
+</html>
