@@ -258,8 +258,14 @@ const AboutPage = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
               {[
                 {
+                  name: "MR.Niruththigan Murukesapillai",
+                  role: "Poject Manager & IoT Hardware Developer",
+                  image: "/images/niruthi.jpg",
+                },
+
+                {
                   name: "MS.Tishany Thiruchelvam",
-                  role: "Poject Manager",
+                  role: "UI Designer ",
                   image: "/images/tishani.jpg",
                 },
                 {
@@ -267,21 +273,20 @@ const AboutPage = () => {
                   role: "Frontend Developer",
                   image: "/images/kirojan01.jpg"
                 },
+
+                {
+                  name: "MR.Abisekan Alagarasa",
+                  role: "Backend Developer",
+                  image: "/images/api.jpg"
+                },
+
+
                 {
                   name: "Ms.Kafeela U.L",
                   role: "System Tester",
                   image: "/images/kh.jpg"
-                },
-                {
-                  name: "Anjali Fernando",
-                  role: "Data Analyst",
-                  image: "https://images.pexels.com/photos/1181355/pexels-photo-1181355.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                },
-                {
-                  name: "Rohan Silva",
-                  role: "Community Outreach Coordinator",
-                  image: "https://images.pexels.com/photos/1181676/pexels-photo-1181676.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
                 }
+                
               ].map((member, index) => (
                 <motion.div
                   key={index}

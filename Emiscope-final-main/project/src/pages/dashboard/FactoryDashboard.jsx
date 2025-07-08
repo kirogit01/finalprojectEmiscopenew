@@ -24,27 +24,27 @@ const FactoryDashboard = () => {
   const [co2Level, setCo2Level] = useState(450);
 
   const dailyEmissions = [
-    { time: '00:00', co: 210 }, { time: '01:00', co: 28 },
+    { time: '00:00', co: 210 }, { time: '01:00', co: 150 },
 
-    { time: '02:00', co: 180 }, { time: '03:00', co: 14 },
-    { time: '05:00', co: 33 }, { time: '06:00', co: 28 },
-    { time: '07:00', co: 16 }, { time: '08:00', co: 13 },
-    { time: '09:00', co: 20 }, { time: '10:00', co: 25 },
-    { time: '11:00', co: 30 }, { time: '12:00', co: 35 },
-    { time: '13:00', co: 32 }, { time: '14:00', co: 29 },
-    { time: '15:00', co: 27 }, { time: '16:00', co: 22 },
-    { time: '17:00', co: 18 }, { time: '18:00', co: 15 },
-    { time: '19:00', co: 12 }, { time: '20:00', co: 10 },
-    { time: '21:00', co: 8 }, { time: '22:00', co: 6 },
-    { time: '23:00', co: 5 }
+    { time: '02:00', co: 180 }, { time: '03:00', co: 160 },
+    { time: '05:00', co: 200 }, { time: '06:00', co: 195 },
+    { time: '07:00', co: 230 }, { time: '08:00', co: 234 },
+    { time: '09:00', co: 163}, { time: '10:00', co: 95 },
+    { time: '11:00', co: 108 }, { time: '12:00', co: 140 },
+    { time: '13:00', co: 102 }, { time: '14:00', co: 120 },
+    { time: '15:00', co: 100 }, { time: '16:00', co: 99 },
+    { time: '17:00', co: 125 }, { time: '18:00', co: 163 },
+    { time: '19:00', co: 109 }, { time: '20:00', co: 93 },
+    { time: '21:00', co: 116 }, { time: '22:00', co: 123 },
+    { time: '23:00', co: 110 }
 
   ];
 
   const weeklyEmissions = [
-    { day: 'Mon', co: 40 }, { day: 'Tue', co: 35 },
-    { day: 'Wed', co: 17 }, { day: 'Thu', co: 15 },
-    { day: 'Fri', co: 19 }, { day: 'Sat', co: 12 },
-    { day: 'Sun', co: 10 },
+    { day: 'Mon', co: 140 }, { day: 'Tue', co: 175 },
+    { day: 'Wed', co: 167 }, { day: 'Thu', co: 155 },
+    { day: 'Fri', co: 199 }, { day: 'Sat', co: 172 },
+    { day: 'Sun', co: 160 },
   ];
 
   const alerts = [

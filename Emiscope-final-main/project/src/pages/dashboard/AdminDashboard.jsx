@@ -1,16 +1,18 @@
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import { FiUsers, FiBarChart2, FiAlertCircle } from 'react-icons/fi';
+import { FiUsers, FiBarChart2, FiAlertCircle, FiPlus, FiFileText } from 'react-icons/fi';
+import { generateMonthlyReportPDF } from '../../utils/generateMonthlyReportPDF';
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
-
-  // Example data
-  const totalFactories = 1;
-  const avgCOLevel = 18.3;
-  const alertFactories = 0;
-
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [showForm, setShowForm] = useState(false);
+
+  const [formData, setFormData] = useState({
+    factoryName: '',
+    ownerName: '',
+    location: '',
+  });
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -18,6 +20,32 @@ const AdminDashboard = () => {
     }, 1000);
     return () => clearInterval(interval);
   }, []);
+
+  const handleInputChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleCreateFactory = () => {
+    console.log("Factory created:", formData);
+    setFormData({ factoryName: '', ownerName: '', location: '' });
+    setShowForm(false);
+    alert("Factory created successfully (dummy)");
+  };
+
+  const dummyDailyEmissions = Array.from({ length: 24 }, (_, i) => ({
+    time: `${i}:00`,
+    co: Math.floor(Math.random() * 100 + 50),
+  }));
+
+  const dummyWeeklyEmissions = [
+    { day: 'Mon', co: 140 },
+    { day: 'Tue', co: 175 },
+    { day: 'Wed', co: 167 },
+    { day: 'Thu', co: 155 },
+    { day: 'Fri', co: 199 },
+    { day: 'Sat', co: 175 },
+    { day: 'Sun', co: 160 },
+  ];
 
   return (
     <div className="pt-20 pb-12 bg-gray-100 min-h-screen">
@@ -58,14 +86,14 @@ const AdminDashboard = () => {
           </table>
         </div>
 
-        {/* Grid Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* Dashboard Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <div className="bg-white p-6 rounded-lg shadow text-center">
             <div className="flex items-center justify-center w-12 h-12 bg-green-100 rounded-full mx-auto mb-4">
               <FiUsers className="text-green-600 text-xl" />
             </div>
             <h2 className="text-lg font-semibold text-gray-700">Total Factories</h2>
-            <p className="text-3xl font-bold text-gray-900">{totalFactories}</p>
+            <p className="text-3xl font-bold text-gray-900">1</p>
             <p className="text-sm text-gray-500">Registered in system</p>
           </div>
 
@@ -74,7 +102,7 @@ const AdminDashboard = () => {
               <FiBarChart2 className="text-yellow-600 text-xl" />
             </div>
             <h2 className="text-lg font-semibold text-gray-700">Average CO Level</h2>
-            <p className="text-3xl font-bold text-yellow-600">{avgCOLevel} ppm</p>
+            <p className="text-3xl font-bold text-yellow-600">183 ppm</p>
             <p className="text-sm text-red-500 mt-2">↗ +2%</p>
             <p className="text-sm text-gray-500">vs. last month</p>
           </div>
@@ -84,8 +112,76 @@ const AdminDashboard = () => {
               <FiAlertCircle className="text-red-600 text-xl" />
             </div>
             <h2 className="text-lg font-semibold text-gray-700">Alert Factories</h2>
-            <p className="text-3xl font-bold text-red-600">{alertFactories}</p>
+            <p className="text-3xl font-bold text-red-600">0</p>
             <p className="text-sm text-gray-500">Requiring attention</p>
+          </div>
+        </div>
+
+        {/* Additional Functions Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Add New Factory */}
+          <div className="bg-white p-6 rounded-lg shadow text-center">
+            <div className="flex items-center justify-center w-12 h-12 bg-blue-100 rounded-full mx-auto mb-4">
+              <FiPlus className="text-blue-600 text-xl" />
+            </div>
+            <h2 className="text-lg font-semibold text-gray-700 mb-2">Add New Factory</h2>
+            <button
+              onClick={() => setShowForm(true)}
+              className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded"
+            >
+              Add Factory
+            </button>
+
+            {showForm && (
+              <div className="mt-4 text-left">
+                <input
+                  type="text"
+                  name="factoryName"
+                  placeholder="Factory Name"
+                  className="block w-full border p-2 rounded mb-2"
+                  value={formData.factoryName}
+                  onChange={handleInputChange}
+                />
+                <input
+                  type="text"
+                  name="ownerName"
+                  placeholder="Owner Name"
+                  className="block w-full border p-2 rounded mb-2"
+                  value={formData.ownerName}
+                  onChange={handleInputChange}
+                />
+                <input
+                  type="text"
+                  name="location"
+                  placeholder="Factory Location"
+                  className="block w-full border p-2 rounded mb-2"
+                  value={formData.location}
+                  onChange={handleInputChange}
+                />
+                <button
+                  onClick={handleCreateFactory}
+                  className="bg-green-500 hover:bg-green-600 text-white py-1 px-4 rounded"
+                >
+                  Submit
+                </button>
+              </div>
+            )}
+          </div>
+
+          {/* Monthly Report PDF */}
+          <div className="bg-white p-6 rounded-lg shadow text-center">
+            <div className="flex items-center justify-center w-12 h-12 bg-purple-100 rounded-full mx-auto mb-4">
+              <FiFileText className="text-purple-600 text-xl" />
+            </div>
+            <h2 className="text-lg font-semibold text-gray-700 mb-2">Monthly Report</h2>
+            <button
+              onClick={() =>
+                generateMonthlyReportPDF(dummyDailyEmissions, dummyWeeklyEmissions)
+              }
+              className="bg-purple-500 hover:bg-purple-600 text-white py-2 px-4 rounded"
+            >
+              Download PDF
+            </button>
           </div>
         </div>
       </div>
